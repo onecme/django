@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    {% load static %}
+
+    <meta charset="UTF-8" />
+    <title>Peta Gempa</title>
+
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    />
+
+    <style>
+      #map {
+        height: 600px;
+      }
+    </style>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  </head>
+
+  <body>
+    <h1>Peta Gempa Indonesia</h1>
+
+    <div id="map"></div>
+
+    <script>
+      var map = L.map("map").setView([-2.5, 118], 5);
+
+      L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        attribution: "&copy; OpenStreetMap",
+      }).addTo(map);
+
+      fetch("{% static 'data.json' %}")
+        .then((response) => response.json())
+        .then((data) => {
+          const daftarGempa = data.Infogempa.gempa;
+
+          daftarGempa.forEach((gempa) => {
+            const koordinat = gempa.Coordinates.split(",");
+
+            const lat = parseFloat(koordinat[0]);
+            const lon = parseFloat(koordinat[1]);
+
+            L.marker([lat, lon]).addTo(map).bindPopup(`
+                            <b>${gempa.Wilayah}</b><br>
+                            Magnitude: ${gempa.Magnitude}<br>
+                            Kedalaman: ${gempa.Kedalaman}<br>
+                            Tanggal: ${gempa.Tanggal}<br>
+                            Jam: ${gempa.Jam}
+                        `);
+          });
+        });
+    </script>
+  </body>
+</html>

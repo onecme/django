@@ -1,0 +1,186 @@
+{
+  "Infogempa": {
+    "gempa": [
+      {
+        "Tanggal": "20 Mei 2026",
+        "Jam": "09:03:27 WIB",
+        "DateTime": "2026-05-20T02:03:27+00:00",
+        "Coordinates": "2.44,96.20",
+        "Lintang": "2.44 LU",
+        "Bujur": "96.20 BT",
+        "Magnitude": "4.5",
+        "Kedalaman": "16 km",
+        "Wilayah": "Pusat gempa berada di laut 19 km barat Sinabang",
+        "Dirasakan": "II-III Simeulue"
+      },
+      {
+        "Tanggal": "20 Mei 2026",
+        "Jam": "01:51:08 WIB",
+        "DateTime": "2026-05-19T18:51:08+00:00",
+        "Coordinates": "-4.04,121.96",
+        "Lintang": "4.04 LS",
+        "Bujur": "121.96 BT",
+        "Magnitude": "2.9",
+        "Kedalaman": "10 km",
+        "Wilayah": "Pusat gempa berada di darat 11 km tenggara Kolaka Timur",
+        "Dirasakan": "III Kolaka Timur"
+      },
+      {
+        "Tanggal": "19 Mei 2026",
+        "Jam": "17:50:27 WIB",
+        "DateTime": "2026-05-19T10:50:27+00:00",
+        "Coordinates": "-6.88,106.81",
+        "Lintang": "6.88 LS",
+        "Bujur": "106.81 BT",
+        "Magnitude": "2.6",
+        "Kedalaman": "12 km",
+        "Wilayah": "Pusat gempa berada di darat 13 km barat laut Sukabumi",
+        "Dirasakan": "II-III Nagrak"
+      },
+      {
+        "Tanggal": "19 Mei 2026",
+        "Jam": "13:47:26 WIB",
+        "DateTime": "2026-05-19T06:47:26+00:00",
+        "Coordinates": "-5.79,112.55",
+        "Lintang": "5.79 LS",
+        "Bujur": "112.55 BT",
+        "Magnitude": "3.9",
+        "Kedalaman": "5 km",
+        "Wilayah": "Pusat gempa berada di laut 135 km Timur Laut Tuban",
+        "Dirasakan": "II-III Bawean"
+      },
+      {
+        "Tanggal": "18 Mei 2026",
+        "Jam": "07:32:20 WIB",
+        "DateTime": "2026-05-18T00:32:20+00:00",
+        "Coordinates": "-2.02,120.69",
+        "Lintang": "2.02 LS",
+        "Bujur": "120.69 BT",
+        "Magnitude": "3.9",
+        "Kedalaman": "5 km",
+        "Wilayah": "Pusat gempa berada di darat 70 km Timur Laut Luwu Utara",
+        "Dirasakan": "III Kabupaten Poso"
+      },
+      {
+        "Tanggal": "18 Mei 2026",
+        "Jam": "00:58:34 WIB",
+        "DateTime": "2026-05-17T17:58:34+00:00",
+        "Coordinates": "-3.93,128.38",
+        "Lintang": "3.93 LS",
+        "Bujur": "128.38 BT",
+        "Magnitude": "4.8",
+        "Kedalaman": "4 km",
+        "Wilayah": "Pusat gempa berada di laut 72 km timur Buru Selatan",
+        "Dirasakan": "III Ambon"
+      },
+      {
+        "Tanggal": "17 Mei 2026",
+        "Jam": "22:38:03 WIB",
+        "DateTime": "2026-05-17T15:38:03+00:00",
+        "Coordinates": "-3.82,128.44",
+        "Lintang": "3.82 LS",
+        "Bujur": "128.44 BT",
+        "Magnitude": "3.8",
+        "Kedalaman": "10 km",
+        "Wilayah": "Pusat gempa berada di laut 78 km Timur Buru Selatan",
+        "Dirasakan": "II-III Ambon"
+      },
+      {
+        "Tanggal": "17 Mei 2026",
+        "Jam": "22:15:01 WIB",
+        "DateTime": "2026-05-17T15:15:01+00:00",
+        "Coordinates": "-7.53,106.69",
+        "Lintang": "7.53 LS",
+        "Bujur": "106.69 BT",
+        "Magnitude": "4.5",
+        "Kedalaman": "25 km",
+        "Wilayah": "Pusat gempa berada di laut 63 km Selatan Kab Sukabumi",
+        "Dirasakan": "II Palabuhan Ratu, II Cisolok, II Cibadak, II Cisaat, II Cidahu, II Cicantayan, II Nagrak, II Ciwidey, II Nyalindung, II Lengkong, II Parungkuda, II Caringin, II Sukabumi, II Cianjur, III Cidolog, III Cidadap, III Pabuaran, III Surade, III Ciracap, III Ciemas, III Jampang Kulon"
+      },
+      {
+        "Tanggal": "17 Mei 2026",
+        "Jam": "14:23:19 WIB",
+        "DateTime": "2026-05-17T07:23:19+00:00",
+        "Coordinates": "-3.47,135.51",
+        "Lintang": "3.47 LS",
+        "Bujur": "135.51 BT",
+        "Magnitude": "3.6",
+        "Kedalaman": "43 km",
+        "Wilayah": "Pusat gempa berada di darat 12 km tenggara Nabire",
+        "Dirasakan": "II Nabire"
+      },
+      {
+        "Tanggal": "17 Mei 2026",
+        "Jam": "07:30:08 WIB",
+        "DateTime": "2026-05-17T00:30:08+00:00",
+        "Coordinates": "4.77,96.82",
+        "Lintang": "4.77 LU",
+        "Bujur": "96.82 BT",
+        "Magnitude": "2.2",
+        "Kedalaman": "4 km",
+        "Wilayah": "Pusat gempa berada di darat 7 km Barat Laut Kab. Bener Meriah",
+        "Dirasakan": "II Bener Meriah"
+      },
+      {
+        "Tanggal": "16 Mei 2026",
+        "Jam": "23:06:05 WIB",
+        "DateTime": "2026-05-16T16:06:05+00:00",
+        "Coordinates": "-8.86,111.63",
+        "Lintang": "8.86 LS",
+        "Bujur": "111.63 BT",
+        "Magnitude": "4.3",
+        "Kedalaman": "17 km",
+        "Wilayah": "Pusat gempa berada di laut 87 km Selatan Trenggalek",
+        "Dirasakan": "III Trenggalek, II Pacitan, II Bantul"
+      },
+      {
+        "Tanggal": "16 Mei 2026",
+        "Jam": "15:34:38 WIB",
+        "DateTime": "2026-05-16T08:34:38+00:00",
+        "Coordinates": "-1.20,119.89",
+        "Lintang": "1.20 LS",
+        "Bujur": "119.89 BT",
+        "Magnitude": "4.8",
+        "Kedalaman": "10 km",
+        "Wilayah": "Pusat gempa berada di darat 21 km utara Sigi",
+        "Dirasakan": "III Palu, IV Sigi"
+      },
+      {
+        "Tanggal": "16 Mei 2026",
+        "Jam": "08:48:20 WIB",
+        "DateTime": "2026-05-16T01:48:20+00:00",
+        "Coordinates": "-7.23,106.69",
+        "Lintang": "7.23 LS",
+        "Bujur": "106.69 BT",
+        "Magnitude": "3.5",
+        "Kedalaman": "87 km",
+        "Wilayah": "Pusat gempa berada di darat 31 km tenggara Kab. Sukabumi",
+        "Dirasakan": "II Cidolog"
+      },
+      {
+        "Tanggal": "15 Mei 2026",
+        "Jam": "00:53:15 WIB",
+        "DateTime": "2026-05-14T17:53:15+00:00",
+        "Coordinates": "-6.09,130.56",
+        "Lintang": "6.09 LS",
+        "Bujur": "130.56 BT",
+        "Magnitude": "6.7",
+        "Kedalaman": "163 km",
+        "Wilayah": "Pusat gempa berada di laut 225 km utara Tanimbar",
+        "Dirasakan": "II-III Saumlaki, II-III Banda, II-III Tual, II-III Masela, II-III Sorong, II-III Raja Ampat, II-III Fak-Fak, II-III Kaimana"
+      },
+      {
+        "Tanggal": "14 Mei 2026",
+        "Jam": "13:27:35 WIB",
+        "DateTime": "2026-05-14T06:27:35+00:00",
+        "Coordinates": "-2.15,100.01",
+        "Lintang": "2.15 LS",
+        "Bujur": "100.01 BT",
+        "Magnitude": "4.0",
+        "Kedalaman": "45 km",
+        "Wilayah": "Pusat gempa berada di laut 49 km timur Tuapejat",
+        "Dirasakan": "I-II Pagai, I-II Sipora"
+      }
+    ]
+  }
+}
