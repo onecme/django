@@ -39,7 +39,7 @@
 
             {% for provinsi in data_provinsi %}
                 L.marker([{{ provinsi.latitude }}, {{ provinsi.longitude }}]).addTo(map)
-                    .bindPopup("<b>{{ provinsi.name }}</b><br>Lat: {{ provinsi.latitude }}<br>Lng: {{ provinsi.longitude }}");
+                    .bindPopup("<b>{{ provinsi.name }}</b><br>Tahun: {{ provinsi.tahun }}<br>Jumlah: {{ provinsi.jumlah }}");
             {% endfor %}
         </script>
 
@@ -51,6 +51,8 @@
                     <th>Nama Provinsi</th>
                     <th>Latitude</th>
                     <th>Longitude</th>
+                    <th>Tahun</th>
+                    <th>Jumlah</th>
                 </tr>
                 {% for provinsi in data_provinsi %}
                 <tr>
@@ -58,6 +60,8 @@
                     <td>{{ provinsi.name }}</td>
                     <td>{{ provinsi.latitude }}</td>
                     <td>{{ provinsi.longitude }}</td>
+                    <td>{{ provinsi.tahun }}</td>
+                    <td>{{ provinsi.jumlah }}</td>
                 </tr>
                 {% endfor %}
             </table>

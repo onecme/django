@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Perceraian Indonesia</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      // Konfigurasi Tailwind untuk mengaktifkan class-based Dark Mode
+      tailwind.config = {
+        darkMode: 'class',
+      }
+    </script>
+    <!-- Google Fonts untuk gaya Pixel & Monospace -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Share+Tech+Mono&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      /* Variabel CSS untuk mendeteksi warna border & shadow dinamis */
+      :root {
+        --pixel-color: #1f2937; /* Warna gelap untuk Mode Terang */
+      }
+      .dark {
+        --pixel-color: #f3f4f0; /* Warna terang untuk Mode Gelap */
+      }
+
+      /* Menggunakan font pixel untuk heading dan monospace untuk body */
+      .font-pixel-heading {
+        font-family: "Press Start 2P", monospace;
+      }
+      .font-pixel-body {
+        font-family: "Share Tech Mono", monospace;
+      }
+      /* Efek pixel-art border & shadow dinamis */
+      .pixel-border {
+        border: 4px solid var(--pixel-color);
+      }
+      .pixel-shadow {
+        box-shadow: 6px 6px 0px 0px var(--pixel-color);
+      }
+      .pixel-shadow-sm {
+        box-shadow: 4px 4px 0px 0px var(--pixel-color);
+      }
+      /* Efek klik tombol */
+      .pixel-btn-active:active {
+        transform: translate(3px, 3px);
+        box-shadow: 2px 2px 0px 0px var(--pixel-color);
+      }
+    </style>
+  </head>
+  <body class="bg-[#f3f4f0] dark:bg-zinc-950 font-pixel-body text-gray-800 dark:text-zinc-100 antialiased transition-colors duration-200">
+    <!-- JIKA DI DJANGO, UNCOMMENT BARIS DI BAWAH INI -->
+    <!-- {% load static %} -->
+
+    <!-- Navigation Bar (Responsif untuk HP & Desktop) -->
+    <nav class="bg-white dark:bg-zinc-900 pixel-border border-t-0 border-l-0 border-r-0 py-4 px-4 sm:px-6">
+      <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+        <!-- Baris Atas: Logo & Toggle Dark Mode (Sejajar di HP) -->
+        <div class="flex justify-between items-center w-full md:w-auto gap-4">
+          <a
+            href="#"
+            class="font-pixel-heading text-emerald-600 dark:text-emerald-400 text-sm sm:text-lg md:text-xl tracking-wider hover:text-emerald-700 dark:hover:text-emerald-300 transition"
+          >
+            Perceraian Indonesia
+          </a>
+          <!-- Tombol Switch Mode Gelap/Terang -->
+          <button
+            id="dark-mode-toggle"
+            class="bg-white dark:bg-zinc-800 p-2 pixel-border pixel-shadow-sm pixel-btn-active text-base sm:text-lg hover:bg-gray-100 dark:hover:bg-zinc-700 transition duration-100 focus:outline-none"
+            title="Ubah Mode Layar"
+          >
+            🌙
+          </button>
+        </div>
+
+        <!-- Baris Bawah (di HP) / Sejajar (di Desktop): Menu Tombol Navigasi -->
+        <div class="flex flex-wrap justify-center items-center gap-2 sm:gap-4 text-xs sm:text-sm md:text-base font-bold w-full md:w-auto">
+          <a
+            href="{% url 'peta_jumlah' %}"
+            class="bg-emerald-500 dark:bg-emerald-600 text-white px-2.5 py-1.5 sm:px-4 sm:py-2 pixel-border pixel-shadow-sm pixel-btn-active hover:bg-emerald-600 dark:hover:bg-emerald-500 transition duration-100 text-center"
+          >
+            JUMLAH PERCERAIAN
+          </a>
+          <a
+            href="{% url 'peta_perselisihan' %}"
+            class="bg-white dark:bg-zinc-800 text-gray-800 dark:text-zinc-100 px-2.5 py-1.5 sm:px-4 sm:py-2 pixel-border pixel-shadow-sm pixel-btn-active hover:bg-gray-100 dark:hover:bg-zinc-700 transition duration-100 text-center"
+          >
+            FAKTOR PERSELISIHAN
+          </a>
+          <a
+            href="{% url 'peta_ekonomi' %}"
+            class="bg-emerald-500 dark:bg-emerald-600 text-white px-2.5 py-1.5 sm:px-4 sm:py-2 pixel-border pixel-shadow-sm pixel-btn-active hover:bg-emerald-600 dark:hover:bg-emerald-500 transition duration-100 text-center"
+          >
+            FAKTOR EKONOMI
+          </a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="max-w-6xl mx-auto px-6 py-12 md:py-16 text-center md:text-left">
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-12 items-center">
+        <div class="md:col-span-7 space-y-6">
+          <h1
+            class="font-pixel-heading text-xl sm:text-2xl md:text-4xl text-gray-900 dark:text-white leading-relaxed"
+          >
+            WEB PERCERAIAN
+            <span class="text-emerald-500 dark:text-emerald-400">INDONESIA</span> MENAMPILKAN DI SINI
+          </h1>
+          <p class="text-base sm:text-lg md:text-xl text-gray-600 dark:text-zinc-300 leading-relaxed">
+            Visualisasi yang ditampilkan pada web ini bersumber dari Badan Pusat
+            Statistik yang diambil pada tahun 2023.
+          </p>
+
+          <div
+            class="flex flex-wrap justify-center md:justify-start gap-4 pt-4"
+          >
+            <a
+              href="https://www.bps.go.id/id/statistics-table/3/YVdoU1IwVmlTM2h4YzFoV1psWkViRXhqTlZwRFVUMDkjMw==/jumlah-perceraian-menurut-provinsi-dan-faktor-penyebab-perceraian--perkara---2024.html?year=2023"
+              target="_blank"
+              class="bg-white dark:bg-zinc-800 hover:bg-gray-100 dark:hover:bg-zinc-700 text-gray-850 dark:text-zinc-100 font-bold text-base sm:text-lg px-6 py-3 pixel-border pixel-shadow pixel-btn-active transition duration-100"
+            >
+              BPS
+            </a>
+          </div>
+        </div>
+
+        <!-- Ilustrasi Pixel Art / Placeholder -->
+        <div class="md:col-span-5 flex justify-center">
+          <div
+            class="w-48 h-48 sm:w-64 sm:h-64 bg-emerald-200 dark:bg-emerald-950/40 pixel-border pixel-shadow flex flex-col items-center justify-center p-6 text-center relative overflow-hidden"
+          >
+            <!-- Ornamen grid pixel -->
+            <div
+              class="absolute inset-0 bg-[radial-gradient(#10b981_1px,transparent_1px)] [background-size:16px_16px] opacity-20"
+            ></div>
+            <!-- Ikon Peta Bertema SIG -->
+            <span class="font-pixel-heading text-emerald-800 dark:text-emerald-300 text-5xl sm:text-6xl mb-4"
+              >🗺️</span
+            >
+            <!-- Teks Penanda Proyek SIG -->
+            <span class="font-pixel-heading text-[10px] sm:text-xs text-emerald-900 dark:text-emerald-400 z-10"
+              >[ SIG_PROJECT ]</span
+            >
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Features Section -->
+    <section
+      id="features"
+      class="bg-emerald-50 dark:bg-zinc-900/40 py-16 pixel-border border-l-0 border-r-0"
+    >
+      <div class="max-w-6xl mx-auto px-6">
+        <div class="text-center space-y-4 mb-12">
+          <h2 class="font-pixel-heading text-lg sm:text-2xl text-gray-900 dark:text-white">
+            FITUR UTAMA
+          </h2>
+          <p class="text-gray-600 dark:text-zinc-300 max-w-xl mx-auto text-base sm:text-lg">
+            Beberapa data yang ditampilkan pada website ini
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <!-- Card 1 -->
+          <div
+            class="bg-white dark:bg-zinc-800 p-6 pixel-border pixel-shadow hover:translate-y-[-2px] transition-all"
+          >
+            <div
+              class="w-12 h-12 bg-emerald-500 text-white flex items-center justify-center pixel-border mb-4 text-2xl"
+            >
+              📊
+            </div>
+            <h3 class="font-pixel-heading text-xs sm:text-sm text-gray-900 dark:text-white mb-5">
+              Jumlah Perceraian
+            </h3>
+            <p class="text-gray-650 dark:text-zinc-300 text-sm sm:text-base leading-relaxed">
+              Perceraian di Indonesia mencapai hampir 400.000 kasus setiap
+              tahunnya, di mana sekitar 70-80% didominasi oleh cerai gugat
+              (perceraian yang diajukan oleh pihak istri) dan sebagian besar
+              terjadi pada usia pernikahan di bawah 5 tahun.
+            </p>
+          </div>
+
+          <!-- Card 2 -->
+          <div
+            class="bg-white dark:bg-zinc-800 p-6 pixel-border pixel-shadow hover:translate-y-[-2px] transition-all"
+          >
+            <div
+              class="w-12 h-12 bg-emerald-400 text-white flex items-center justify-center pixel-border mb-4 text-2xl"
+            >
+              💔
+            </div>
+            <h3 class="font-pixel-heading text-xs sm:text-sm text-gray-900 dark:text-white mb-5">
+              Perceraian Faktor Perselisihan
+            </h3>
+            <p class="text-gray-650 dark:text-zinc-300 text-sm sm:text-base leading-relaxed">
+              Perselisihan dan pertengkaran yang terus-menerus adalah faktor
+              penyebab perceraian tertinggi di Indonesia. Kondisi ini sering
+              kali dipicu oleh masalah ekonomi, komunikasi yang buruk,
+              perselingkuhan, hingga campur tangan pihak ketiga.
+            </p>
+          </div>
+
+          <!-- Card 3 -->
+          <div
+            class="bg-white dark:bg-zinc-800 p-6 pixel-border pixel-shadow hover:translate-y-[-2px] transition-all"
+          >
+            <div
+              class="w-12 h-12 bg-emerald-300 text-white flex items-center justify-center pixel-border mb-4 text-2xl"
+            >
+              💰
+            </div>
+            <h3 class="font-pixel-heading text-xs sm:text-sm text-gray-900 dark:text-white mb-5">
+              Perceraian Faktor Ekonomi
+            </h3>
+            <p class="text-gray-650 dark:text-zinc-300 text-sm sm:text-base leading-relaxed">
+              Faktor ekonomi menempati posisi puncak sebagai salah satu penyebab
+              utama perceraian, dengan Badan Pusat Statistik (BPS) mencatat
+              lebih dari ratusan ribu kasus terjadi akibat masalah ini.
+              Ketidakmampuan finansial memicu berbagai konflik turunan yang
+              berujung pada perpisahan.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Info Section / Call to Action -->
+    <section id="about" class="max-w-6xl mx-auto px-6 py-16 md:py-20">
+      <div
+        class="bg-emerald-600 dark:bg-emerald-800 text-white p-8 sm:p-12 pixel-border pixel-shadow relative"
+      >
+        <div
+          class="absolute right-4 top-4 text-emerald-400 opacity-20 font-pixel-heading text-6xl sm:text-8xl pointer-events-none select-none"
+        >
+          :::
+        </div>
+        <div class="max-w-2xl space-y-6 relative z-10">
+          <h2 class="font-pixel-heading text-base sm:text-2xl leading-relaxed">
+            Apa Manfaat Website Visualisasi Perceraian Indonesia?
+          </h2>
+          <ol class="text-emerald-100 text-sm sm:text-base leading-relaxed list-none space-y-2">
+            <li>1. Kemudahan Memahami Data Statistik</li>
+            <li>2. Identifikasi Wilayah dengan Tingkat Perceraian Tinggi</li>
+            <li>3. Analisis Faktor Penyebab Secara Spasial</li>
+            <li>4. Mendukung Pengambilan Keputusan Berbasis Data</li>
+            <li>5. Transparansi Data Publik</li>
+          </ol>
+          <div class="pt-2">
+            <a
+              href="https://docs.djangoproject.com"
+              target="_blank"
+              class="inline-block bg-white dark:bg-zinc-800 hover:bg-gray-100 dark:hover:bg-zinc-700 text-emerald-800 dark:text-emerald-300 font-bold text-sm sm:text-lg px-6 py-3 pixel-border pixel-shadow-sm pixel-btn-active transition duration-100"
+            >
+              Link Github Projek Ini
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer
+      id="contact"
+      class="bg-white dark:bg-zinc-900 pixel-border border-b-0 border-l-0 border-r-0 py-8 px-6 text-center text-gray-600 dark:text-zinc-450 text-sm sm:text-lg"
+    >
+      <div
+        class="max-w-6xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4"
+      >
+        <p>© 2026 Sistem Informasi Geografis</p>
+        <p class="font-pixel-heading text-[10px] text-emerald-600 dark:text-emerald-400">
+          // Elyas & Lulu
+        </p>
+      </div>
+    </footer>
+
+    <!-- Script JavaScript untuk Kontrol Mode Gelap -->
+    <script>
+      const toggleBtn = document.getElementById('dark-mode-toggle');
+      
+      // Mengecek apakah sebelumnya ada preferensi mode yang tersimpan
+      if (
+        localStorage.getItem('theme') === 'dark' || 
+        (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)
+      ) {
+        document.documentElement.classList.add('dark');
+        toggleBtn.innerHTML = '☀️'; // Tampilkan emoji matahari saat mode gelap aktif
+      } else {
+        document.documentElement.classList.remove('dark');
+        toggleBtn.innerHTML = '🌙'; // Tampilkan emoji bulan saat mode terang aktif
+      }
+
+      // Event listener klik tombol toggle
+      toggleBtn.addEventListener('click', () => {
+        if (document.documentElement.classList.contains('dark')) {
+          document.documentElement.classList.remove('dark');
+          localStorage.setItem('theme', 'light');
+          toggleBtn.innerHTML = '🌙';
+        } else {
+          document.documentElement.classList.add('dark');
+          localStorage.setItem('theme', 'dark');
+          toggleBtn.innerHTML = '☀️';
+        }
+      });
+    </script>
+  </body>
+</html>

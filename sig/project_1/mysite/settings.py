@@ -133,4 +133,5 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 STATICFILES_DIRS = [
     BASE_DIR / "petaGempa" / "static",
+    BASE_DIR / 'static'
 ]

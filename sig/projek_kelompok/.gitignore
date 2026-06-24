@@ -1,0 +1,39 @@
+# Environment & Secrets
+.env
+*.env
+
+# Django settings sensitif
+webPerceraian_indonesia/settings.py
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.pyc
+
+# Virtual Environment
+venv/
+env/
+.venv/
+
+# Database
+*.sqlite3
+db.sqlite3
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# Static & Media files
+/staticfiles/
+/mediafiles/
+
+# Data files (opsional, kalau tidak mau ikut push)
+# webPerceraian_indonesia/data/
