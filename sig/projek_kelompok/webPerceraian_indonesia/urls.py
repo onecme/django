@@ -15,4 +15,7 @@ urlpatterns = [
     path('api/geojson/jumlah/', views.api_geojson_jumlah, name='api_geojson_jumlah'),
     path('api/geojson/perselisihan/', views.api_geojson_perselisihan, name='api_geojson_perselisihan'),
     path('api/geojson/ekonomi/', views.api_geojson_ekonomi, name='api_geojson_ekonomi'),
+
+    # Analisis LLM
+    path('api/analisis/', views.api_analisis, name='api_analisis')
 ]

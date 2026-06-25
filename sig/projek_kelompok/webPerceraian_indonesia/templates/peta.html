@@ -1,363 +1,477 @@
 <!doctype html>
 <html lang="id">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>{{ judul }} – Perceraian Indonesia</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{ judul }} – Perceraian Indonesia</title>
 
-  <!-- Tailwind CSS -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>tailwind.config = { darkMode: 'class' }</script>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = { darkMode: "class" };
+    </script>
 
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Share+Tech+Mono&display=swap" rel="stylesheet"/>
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Share+Tech+Mono&display=swap"
+      rel="stylesheet"
+    />
 
-  <!-- Leaflet CSS & JS -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <!-- Leaflet CSS & JS -->
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
-  <style>
-    :root { --pixel-color: #1f2937; }
-    .dark { --pixel-color: #f3f4f0; }
+    <style>
+      :root { --pixel-color: #1f2937; }
+      .dark { --pixel-color: #f3f4f0; }
 
-    .font-pixel-heading { font-family: "Press Start 2P", monospace; }
-    .font-pixel-body    { font-family: "Share Tech Mono", monospace; }
+      .font-pixel-heading { font-family: "Press Start 2P", monospace; }
+      .font-pixel-body    { font-family: "Share Tech Mono", monospace; }
 
-    .pixel-border   { border: 4px solid var(--pixel-color); }
-    .pixel-shadow   { box-shadow: 6px 6px 0px 0px var(--pixel-color); }
-    .pixel-shadow-sm{ box-shadow: 4px 4px 0px 0px var(--pixel-color); }
-    .pixel-btn-active:active { transform: translate(3px,3px); box-shadow: 2px 2px 0px 0px var(--pixel-color); }
+      .pixel-border    { border: 4px solid var(--pixel-color); }
+      .pixel-shadow    { box-shadow: 6px 6px 0px 0px var(--pixel-color); }
+      .pixel-shadow-sm { box-shadow: 4px 4px 0px 0px var(--pixel-color); }
+      .pixel-btn-active:active {
+        transform: translate(3px, 3px);
+        box-shadow: 2px 2px 0px 0px var(--pixel-color);
+      }
 
-    /* Peta full-width dengan tinggi tetap */
-    #map {
-      width: 100%;
-      height: 540px;
-    }
+      #map { width: 100%; height: 540px; }
 
-    /* Override Leaflet agar sesuai pixel-art style */
-    .leaflet-popup-content-wrapper {
-      border-radius: 0 !important;
-      border: 4px solid var(--pixel-color) !important;
-      box-shadow: 6px 6px 0 0 var(--pixel-color) !important;
-      font-family: "Share Tech Mono", monospace;
-    }
-    .leaflet-popup-tip { background: var(--pixel-color) !important; }
+      .leaflet-popup-content-wrapper {
+        border-radius: 0 !important;
+        border: 4px solid var(--pixel-color) !important;
+        box-shadow: 6px 6px 0 0 var(--pixel-color) !important;
+        font-family: "Share Tech Mono", monospace;
+      }
+      .leaflet-popup-tip { background: var(--pixel-color) !important; }
 
-    /* Legenda */
-    .legend-item { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
-    .legend-box  { width: 20px; height: 20px; border: 2px solid var(--pixel-color); flex-shrink: 0; }
+      .legend-item { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+      .legend-box  { width: 20px; height: 20px; border: 2px solid var(--pixel-color); flex-shrink: 0; }
 
-    /* Loading overlay */
-    #loading-overlay {
-      position: absolute;
-      inset: 0;
-      background: rgba(243,244,240,0.85);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      z-index: 9999;
-      font-family: "Press Start 2P", monospace;
-      font-size: 10px;
-      gap: 12px;
-    }
-    .dark #loading-overlay { background: rgba(9,9,11,0.85); color: #f3f4f0; }
+      #loading-overlay {
+        position: absolute;
+        inset: 0;
+        background: rgba(243, 244, 240, 0.85);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+        font-family: "Press Start 2P", monospace;
+        font-size: 10px;
+        gap: 12px;
+      }
+      .dark #loading-overlay { background: rgba(9, 9, 11, 0.85); color: #f3f4f0; }
 
-    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
-    .blink { animation: blink 1s infinite; }
-  </style>
-</head>
+      @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.2; } }
+      .blink { animation: blink 1s infinite; }
+    </style>
+  </head>
 
-<body class="bg-[#f3f4f0] dark:bg-zinc-950 font-pixel-body text-gray-800 dark:text-zinc-100 antialiased transition-colors duration-200">
+  <body class="bg-[#f3f4f0] dark:bg-zinc-950 font-pixel-body text-gray-800 dark:text-zinc-100 antialiased transition-colors duration-200">
 
-<!-- ── Navbar ────────────────────────────────────────────────────────────── -->
-<nav class="bg-white dark:bg-zinc-900 pixel-border border-t-0 border-l-0 border-r-0 py-4 px-4 sm:px-6">
-  <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+    <!-- ── Navbar ── -->
+    <nav class="bg-white dark:bg-zinc-900 pixel-border border-t-0 border-l-0 border-r-0 py-4 px-4 sm:px-6">
+      <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
 
-    <div class="flex justify-between items-center w-full md:w-auto gap-4">
-      <a href="{% url 'landing' %}" class="font-pixel-heading text-emerald-600 dark:text-emerald-400 text-sm sm:text-lg tracking-wider hover:text-emerald-700 dark:hover:text-emerald-300 transition">
-        Perceraian Indonesia
-      </a>
-      <button id="dark-mode-toggle"
-        class="bg-white dark:bg-zinc-800 p-2 pixel-border pixel-shadow-sm pixel-btn-active text-base hover:bg-gray-100 dark:hover:bg-zinc-700 transition duration-100 focus:outline-none"
-        title="Ubah Mode Layar">🌙
-      </button>
-    </div>
-
-    <div class="flex flex-wrap justify-center items-center gap-2 sm:gap-4 text-xs sm:text-sm font-bold w-full md:w-auto">
-      <a href="{% url 'peta_jumlah' %}"
-         class="px-2.5 py-1.5 sm:px-4 sm:py-2 pixel-border pixel-shadow-sm pixel-btn-active transition duration-100 text-center
-                {% if nav_aktif == 'jumlah' %}bg-emerald-500 dark:bg-emerald-600 text-white{% else %}bg-white dark:bg-zinc-800 text-gray-800 dark:text-zinc-100 hover:bg-gray-100 dark:hover:bg-zinc-700{% endif %}">
-        JUMLAH PERCERAIAN
-      </a>
-      <a href="{% url 'peta_perselisihan' %}"
-         class="px-2.5 py-1.5 sm:px-4 sm:py-2 pixel-border pixel-shadow-sm pixel-btn-active transition duration-100 text-center
-                {% if nav_aktif == 'perselisihan' %}bg-emerald-500 dark:bg-emerald-600 text-white{% else %}bg-white dark:bg-zinc-800 text-gray-800 dark:text-zinc-100 hover:bg-gray-100 dark:hover:bg-zinc-700{% endif %}">
-        FAKTOR PERSELISIHAN
-      </a>
-      <a href="{% url 'peta_ekonomi' %}"
-         class="px-2.5 py-1.5 sm:px-4 sm:py-2 pixel-border pixel-shadow-sm pixel-btn-active transition duration-100 text-center
-                {% if nav_aktif == 'ekonomi' %}bg-emerald-500 dark:bg-emerald-600 text-white{% else %}bg-white dark:bg-zinc-800 text-gray-800 dark:text-zinc-100 hover:bg-gray-100 dark:hover:bg-zinc-700{% endif %}">
-        FAKTOR EKONOMI
-      </a>
-    </div>
-  </div>
-</nav>
-
-<!-- ── Header Halaman ────────────────────────────────────────────────────── -->
-<header class="max-w-6xl mx-auto px-6 py-8">
-  <h1 class="font-pixel-heading text-base sm:text-xl text-gray-900 dark:text-white leading-relaxed">
-    {{ judul }}
-  </h1>
-  <p class="mt-2 text-sm text-gray-500 dark:text-zinc-400">
-    Sumber: Badan Pusat Statistik (BPS) · Data 2023 · Klik provinsi untuk detail
-  </p>
-</header>
-
-<!-- ── Layout Peta + Sidebar ─────────────────────────────────────────────── -->
-<main class="max-w-6xl mx-auto px-6 pb-12">
-  <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
-
-    <!-- Kontainer Peta -->
-    <div class="lg:col-span-3">
-      <div class="relative pixel-border pixel-shadow overflow-hidden bg-white dark:bg-zinc-900">
-
-        <!-- Loading Overlay -->
-        <div id="loading-overlay">
-          <span class="blink">MEMUAT PETA...</span>
-          <span class="text-emerald-500 text-xs">[ LOADING GEOJSON ]</span>
+        <div class="flex justify-between items-center w-full md:w-auto gap-4">
+          <a href="{% url 'landing' %}"
+             class="font-pixel-heading text-emerald-600 dark:text-emerald-400 text-sm sm:text-lg tracking-wider hover:text-emerald-700 dark:hover:text-emerald-300 transition">
+            Perceraian Indonesia
+          </a>
+          <button id="dark-mode-toggle"
+            class="bg-white dark:bg-zinc-800 p-2 pixel-border pixel-shadow-sm pixel-btn-active text-base hover:bg-gray-100 dark:hover:bg-zinc-700 transition duration-100 focus:outline-none"
+            title="Ubah Mode Layar">🌙
+          </button>
         </div>
 
-        <!-- Peta Leaflet -->
-        <div id="map"></div>
-      </div>
-    </div>
-
-    <!-- Sidebar: Legenda + Info Provinsi -->
-    <div class="lg:col-span-1 space-y-4">
-
-      <!-- Legenda Warna -->
-      <div class="bg-white dark:bg-zinc-800 pixel-border pixel-shadow-sm p-4">
-        <h2 class="font-pixel-heading text-[10px] text-gray-900 dark:text-white mb-4">LEGENDA</h2>
-        <div id="legenda-container" class="space-y-1 text-xs text-gray-700 dark:text-zinc-300"></div>
-      </div>
-
-      <!-- Info Provinsi (muncul saat hover/klik) -->
-      <div id="info-box" class="bg-white dark:bg-zinc-800 pixel-border pixel-shadow-sm p-4 hidden">
-        <h2 class="font-pixel-heading text-[10px] text-emerald-600 dark:text-emerald-400 mb-3">DETAIL PROVINSI</h2>
-        <p id="info-nama" class="font-pixel-heading text-[9px] text-gray-900 dark:text-white mb-3"></p>
-        <div class="space-y-2 text-xs text-gray-700 dark:text-zinc-300">
-          <div class="flex justify-between">
-            <span>Total Perceraian</span>
-            <span id="info-jumlah" class="font-bold text-gray-900 dark:text-white"></span>
-          </div>
-          <div class="flex justify-between">
-            <span>Perselisihan</span>
-            <span id="info-perselisihan" class="font-bold text-orange-600 dark:text-orange-400"></span>
-          </div>
-          <div class="flex justify-between">
-            <span>Ekonomi</span>
-            <span id="info-ekonomi" class="font-bold text-blue-600 dark:text-blue-400"></span>
-          </div>
+        <div class="flex flex-wrap justify-center items-center gap-2 sm:gap-4 text-xs sm:text-sm font-bold w-full md:w-auto">
+          <a href="{% url 'peta_jumlah' %}"
+             class="px-2.5 py-1.5 sm:px-4 sm:py-2 pixel-border pixel-shadow-sm pixel-btn-active transition duration-100 text-center
+                    {% if nav_aktif == 'jumlah' %}bg-emerald-500 dark:bg-emerald-600 text-white{% else %}bg-white dark:bg-zinc-800 text-gray-800 dark:text-zinc-100 hover:bg-gray-100 dark:hover:bg-zinc-700{% endif %}">
+            JUMLAH PERCERAIAN
+          </a>
+          <a href="{% url 'peta_perselisihan' %}"
+             class="px-2.5 py-1.5 sm:px-4 sm:py-2 pixel-border pixel-shadow-sm pixel-btn-active transition duration-100 text-center
+                    {% if nav_aktif == 'perselisihan' %}bg-emerald-500 dark:bg-emerald-600 text-white{% else %}bg-white dark:bg-zinc-800 text-gray-800 dark:text-zinc-100 hover:bg-gray-100 dark:hover:bg-zinc-700{% endif %}">
+            FAKTOR PERSELISIHAN
+          </a>
+          <a href="{% url 'peta_ekonomi' %}"
+             class="px-2.5 py-1.5 sm:px-4 sm:py-2 pixel-border pixel-shadow-sm pixel-btn-active transition duration-100 text-center
+                    {% if nav_aktif == 'ekonomi' %}bg-emerald-500 dark:bg-emerald-600 text-white{% else %}bg-white dark:bg-zinc-800 text-gray-800 dark:text-zinc-100 hover:bg-gray-100 dark:hover:bg-zinc-700{% endif %}">
+            FAKTOR EKONOMI
+          </a>
         </div>
       </div>
+    </nav>
 
-      <!-- Top 5 Provinsi -->
-      <div class="bg-white dark:bg-zinc-800 pixel-border pixel-shadow-sm p-4">
-        <h2 class="font-pixel-heading text-[10px] text-gray-900 dark:text-white mb-3">TOP 5 PROVINSI</h2>
-        <ol id="top5-list" class="space-y-2 text-xs text-gray-700 dark:text-zinc-300 list-decimal list-inside"></ol>
+    <!-- ── Header Halaman ── -->
+    <header class="max-w-6xl mx-auto px-6 py-8">
+      <h1 class="font-pixel-heading text-base sm:text-xl text-gray-900 dark:text-white leading-relaxed">
+        {{ judul }}
+      </h1>
+      <p class="mt-2 text-sm text-gray-500 dark:text-zinc-400">
+        Sumber: Badan Pusat Statistik (BPS) · Data 2023 · Klik provinsi untuk detail
+      </p>
+    </header>
+
+    <!-- ── Layout Peta + Sidebar ── -->
+    <main class="max-w-6xl mx-auto px-6 pb-12">
+      <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+
+        <!-- Kontainer Peta -->
+        <div class="lg:col-span-3">
+          <div class="relative pixel-border pixel-shadow overflow-hidden bg-white dark:bg-zinc-900">
+            <div id="loading-overlay">
+              <span class="blink">MEMUAT PETA...</span>
+              <span class="text-emerald-500 text-xs">[ LOADING GEOJSON ]</span>
+            </div>
+            <div id="map"></div>
+          </div>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="lg:col-span-1 space-y-4">
+
+          <!-- Legenda -->
+          <div class="bg-white dark:bg-zinc-800 pixel-border pixel-shadow-sm p-4">
+            <h2 class="font-pixel-heading text-[10px] text-gray-900 dark:text-white mb-4">LEGENDA</h2>
+            <div id="legenda-container" class="space-y-1 text-xs text-gray-700 dark:text-zinc-300"></div>
+          </div>
+
+          <!-- Info Provinsi -->
+          <div id="info-box" class="bg-white dark:bg-zinc-800 pixel-border pixel-shadow-sm p-4 hidden">
+            <h2 class="font-pixel-heading text-[10px] text-emerald-600 dark:text-emerald-400 mb-3">DETAIL PROVINSI</h2>
+            <p id="info-nama" class="font-pixel-heading text-[9px] text-gray-900 dark:text-white mb-3"></p>
+            <div class="space-y-2 text-xs text-gray-700 dark:text-zinc-300">
+              <div class="flex justify-between">
+                <span>Total Perceraian</span>
+                <span id="info-jumlah" class="font-bold text-gray-900 dark:text-white"></span>
+              </div>
+              <div class="flex justify-between">
+                <span>Perselisihan</span>
+                <span id="info-perselisihan" class="font-bold text-orange-600 dark:text-orange-400"></span>
+              </div>
+              <div class="flex justify-between">
+                <span>Ekonomi</span>
+                <span id="info-ekonomi" class="font-bold text-blue-600 dark:text-blue-400"></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Top 5 -->
+          <div class="bg-white dark:bg-zinc-800 pixel-border pixel-shadow-sm p-4">
+            <h2 class="font-pixel-heading text-[10px] text-gray-900 dark:text-white mb-3">TOP 5 PROVINSI</h2>
+            <ol id="top5-list" class="space-y-2 text-xs text-gray-700 dark:text-zinc-300 list-decimal list-inside"></ol>
+          </div>
+
+        </div>
       </div>
+    </main>
 
-    </div>
-  </div>
-</main>
+    <!-- ── Section Analisis LLM ── -->
+    <section class="max-w-6xl mx-auto px-6 pb-12">
+      <div class="bg-white dark:bg-zinc-800 pixel-border pixel-shadow p-6 space-y-4">
 
-<!-- ── Footer ────────────────────────────────────────────────────────────── -->
-<footer class="bg-white dark:bg-zinc-900 pixel-border border-b-0 border-l-0 border-r-0 py-8 px-6 text-center text-gray-600 dark:text-zinc-450 text-sm">
-  <div class="max-w-6xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
-    <p>© 2026 Sistem Informasi Geografis</p>
-    <p class="font-pixel-heading text-[10px] text-emerald-600 dark:text-emerald-400">// Elyas & Lulu</p>
-  </div>
-</footer>
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 bg-emerald-500 text-white flex items-center justify-center pixel-border text-xl shrink-0">🤖</div>
+          <h2 class="font-pixel-heading text-xs sm:text-sm text-gray-900 dark:text-white leading-relaxed">ANALISIS AI</h2>
+        </div>
 
-<!-- ── Script ─────────────────────────────────────────────────────────────── -->
-<script>
-  // ── Dark Mode Toggle ────────────────────────────
-  const toggleBtn = document.getElementById('dark-mode-toggle');
-  if (localStorage.getItem('theme') === 'dark' ||
-      (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-    document.documentElement.classList.add('dark');
-    toggleBtn.innerHTML = '☀️';
-  }
-  toggleBtn.addEventListener('click', () => {
-    const isDark = document.documentElement.classList.toggle('dark');
-    localStorage.setItem('theme', isDark ? 'dark' : 'light');
-    toggleBtn.innerHTML = isDark ? '☀️' : '🌙';
-  });
+        <div class="flex flex-wrap gap-3">
+          <button
+            id="btn-analisis-provinsi"
+            disabled
+            onclick="jalankanAnalisis('provinsi')"
+            class="bg-zinc-200 dark:bg-zinc-700 text-zinc-400 dark:text-zinc-500 font-bold text-xs px-4 py-2 pixel-border pixel-shadow-sm cursor-not-allowed transition duration-100"
+          >
+            🗺️ ANALISIS PROVINSI
+          </button>
+          <button
+            id="btn-analisis-nasional"
+            onclick="jalankanAnalisis('nasional')"
+            class="bg-emerald-500 dark:bg-emerald-600 text-white font-bold text-xs px-4 py-2 pixel-border pixel-shadow-sm pixel-btn-active hover:bg-emerald-600 dark:hover:bg-emerald-500 transition duration-100"
+          >
+            🇮🇩 ANALISIS NASIONAL
+          </button>
+        </div>
 
-  // ── Konfigurasi dari Django (dipass lewat context) ──
-  const API_URL  = "{{ api_url }}";
-  const LABEL    = "{{ label }}";
-  const KOLOM    = "{{ kolom }}";
+        <p id="hint-provinsi" class="text-xs text-zinc-400 dark:text-zinc-500 italic">
+          * Klik provinsi di peta terlebih dahulu untuk mengaktifkan analisis provinsi
+        </p>
 
-  // ── Skala Warna per Jenis Data ──────────────────
-  const COLOR_SCALES = {
-    jumlah_perceraian: {
-      thresholds: [1000, 5000, 10000, 20000, 40000, 80000],
-      colors:     ['#fff5f5','#ffc9c9','#ffa8a8','#ff6b6b','#fa5252','#e03131','#c92a2a'],
-    },
-    faktor_perselisihan: {
-      thresholds: [500, 2000, 5000, 10000, 20000, 40000],
-      colors:     ['#fff5f5','#ffc9c9','#ffa8a8','#ff6b6b','#fa5252','#e03131','#c92a2a'],
-    },
-    faktor_ekonomi: {
-      thresholds: [50, 200, 500, 1000, 5000, 20000],
-      colors:     ['#fff5f5','#ffc9c9','#ffa8a8','#ff6b6b','#fa5252','#e03131','#c92a2a'],
-    },
-  };
+        <div
+          id="analisis-output"
+          class="hidden bg-[#f3f4f0] dark:bg-zinc-900 pixel-border p-4 text-sm text-gray-700 dark:text-zinc-300 leading-relaxed min-h-[120px] whitespace-pre-wrap"
+        ></div>
 
-  function getColor(nilai, skala) {
-    const { thresholds, colors } = skala;
-    for (let i = 0; i < thresholds.length; i++) {
-      if (nilai <= thresholds[i]) return colors[i];
-    }
-    return colors[colors.length - 1];
-  }
+        <div id="analisis-loading" class="hidden flex items-center gap-3 text-xs text-emerald-600 dark:text-emerald-400 font-pixel-heading">
+          <span class="blink">[ AI SEDANG MENGANALISIS... ]</span>
+        </div>
 
-  function formatAngka(n) {
-    return n ? n.toLocaleString('id-ID') : '-';
-  }
+        <p class="text-[10px] text-zinc-400 dark:text-zinc-500">
+          Analisis dihasilkan oleh Llama 3.3 70B via Groq · Berdasarkan data BPS 2023 · Bukan merupakan kebijakan resmi
+        </p>
+      </div>
+    </section>
 
-  // ── Inisialisasi Leaflet ────────────────────────
-  const map = L.map('map', {
-    center: [-2.5, 118],
-    zoom: 5,
-    zoomControl: true,
-    scrollWheelZoom: true,
-  });
+    <!-- ── Footer ── -->
+    <footer class="bg-white dark:bg-zinc-900 pixel-border border-b-0 border-l-0 border-r-0 py-8 px-6 text-center text-gray-600 dark:text-zinc-450 text-sm">
+      <div class="max-w-6xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
+        <p>© 2026 Sistem Informasi Geografis</p>
+        <p class="font-pixel-heading text-[10px] text-emerald-600 dark:text-emerald-400">// Elyas & Lulu</p>
+      </div>
+    </footer>
 
-  // Tile layer OpenStreetMap (bisa diganti ke CartoDB Positron untuk tampilan lebih bersih)
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png', {
-    attribution: '&copy; <a href="https://carto.com/">CARTO</a> | BPS 2023',
-    subdomains: 'abcd',
-    maxZoom: 19,
-  }).addTo(map);
+    <!-- ── Script ── -->
+    <script>
+      // ── Dark Mode ──────────────────────────────────
+      const toggleBtn = document.getElementById("dark-mode-toggle");
+      if (
+        localStorage.getItem("theme") === "dark" ||
+        (!("theme" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches)
+      ) {
+        document.documentElement.classList.add("dark");
+        toggleBtn.innerHTML = "☀️";
+      }
+      toggleBtn.addEventListener("click", () => {
+        const isDark = document.documentElement.classList.toggle("dark");
+        localStorage.setItem("theme", isDark ? "dark" : "light");
+        toggleBtn.innerHTML = isDark ? "☀️" : "🌙";
+      });
 
-  // ── Load GeoJSON dari Django API ────────────────
-  const skala = COLOR_SCALES[KOLOM] || COLOR_SCALES['jumlah_perceraian'];
+      // ── Konfigurasi Django Context ─────────────────
+      const API_URL = "{{ api_url }}";
+      const LABEL   = "{{ label }}";
+      const KOLOM   = "{{ kolom }}";
 
-  let geojsonLayer;
-  let allData = [];  // Untuk keperluan Top 5
-  let selectedLayer = null;
-
-  fetch(API_URL)
-    .then(r => r.json())
-    .then(geojson => {
-      // Sembunyikan loading overlay
-      document.getElementById('loading-overlay').style.display = 'none';
-
-      // Kumpulkan data untuk Top 5
-      allData = geojson.features.map(f => ({
-        nama: f.properties.nama,
-        nilai: f.properties.nilai,
-        jumlah: f.properties.jumlah_perceraian,
-        perselisihan: f.properties.faktor_perselisihan,
-        ekonomi: f.properties.faktor_ekonomi,
-      })).sort((a, b) => b.nilai - a.nilai);
-
-      renderTop5(allData);
-
-      geojsonLayer = L.geoJSON(geojson, {
-        style: feature => ({
-          fillColor: getColor(feature.properties.nilai, skala),
-          weight: 2,
-          color: '#1f2937',
-          fillOpacity: 0.8,
-        }),
-        onEachFeature: (feature, layer) => {
-          const p = feature.properties;
-
-          // Highlight saat hover
-          layer.on({
-            mouseover(e) {
-              const l = e.target;
-              l.setStyle({ weight: 4, color: '#10b981', fillOpacity: 0.95 });
-              l.bringToFront();
-              showInfo(p);
-            },
-            mouseout(e) {
-              if (selectedLayer !== e.target) {
-                geojsonLayer.resetStyle(e.target);
-              }
-              if (!selectedLayer) hideInfo();
-            },
-            click(e) {
-              // Reset style layer sebelumnya
-              if (selectedLayer) geojsonLayer.resetStyle(selectedLayer);
-              selectedLayer = e.target;
-              selectedLayer.setStyle({ weight: 4, color: '#10b981', fillOpacity: 0.95 });
-              showInfo(p);
-              map.fitBounds(e.target.getBounds(), { padding: [20, 20] });
-            },
-          });
+      // ── Skala Warna ────────────────────────────────
+      const COLOR_SCALES = {
+        jumlah_perceraian: {
+          thresholds: [1000, 5000, 10000, 20000, 40000, 80000],
+          colors: ["#fff5f5","#ffc9c9","#ffa8a8","#ff6b6b","#fa5252","#e03131","#c92a2a"],
         },
+        faktor_perselisihan: {
+          thresholds: [500, 2000, 5000, 10000, 20000, 40000],
+          colors: ["#fff5f5","#ffc9c9","#ffa8a8","#ff6b6b","#fa5252","#e03131","#c92a2a"],
+        },
+        faktor_ekonomi: {
+          thresholds: [50, 200, 500, 1000, 5000, 20000],
+          colors: ["#fff5f5","#ffc9c9","#ffa8a8","#ff6b6b","#fa5252","#e03131","#c92a2a"],
+        },
+      };
+
+      function getColor(nilai, skala) {
+        const { thresholds, colors } = skala;
+        for (let i = 0; i < thresholds.length; i++) {
+          if (nilai <= thresholds[i]) return colors[i];
+        }
+        return colors[colors.length - 1];
+      }
+
+      function formatAngka(n) {
+        return n ? n.toLocaleString("id-ID") : "-";
+      }
+
+      // ── State Global ───────────────────────────────
+      let geojsonLayer;
+      let allData = [];
+      let selectedLayer = null;
+      let provinsiTerpilih = null;  // ← state untuk analisis LLM
+
+      // ── Inisialisasi Leaflet ───────────────────────
+      const map = L.map("map", {
+        center: [-2.5, 118],
+        zoom: 5,
+        zoomControl: true,
+        scrollWheelZoom: true,
+      });
+
+      L.tileLayer("https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png", {
+        attribution: '&copy; <a href="https://carto.com/">CARTO</a> | BPS 2023',
+        subdomains: "abcd",
+        maxZoom: 19,
       }).addTo(map);
 
-      // Fit ke bounds Indonesia
-      map.fitBounds(geojsonLayer.getBounds(), { padding: [10, 10] });
+      // ── Load GeoJSON ───────────────────────────────
+      const skala = COLOR_SCALES[KOLOM] || COLOR_SCALES["jumlah_perceraian"];
 
-      renderLegenda(skala, LABEL);
-    })
-    .catch(err => {
-      document.getElementById('loading-overlay').innerHTML =
-        '<span style="color:red">❌ GAGAL MEMUAT DATA</span><span style="font-size:10px">' + err.message + '</span>';
-    });
+      fetch(API_URL)
+        .then((r) => r.json())
+        .then((geojson) => {
+          document.getElementById("loading-overlay").style.display = "none";
 
-  // ── Tampilkan Info Provinsi ─────────────────────
-  function showInfo(p) {
-    document.getElementById('info-box').classList.remove('hidden');
-    document.getElementById('info-nama').textContent        = p.nama.toUpperCase();
-    document.getElementById('info-jumlah').textContent      = formatAngka(p.jumlah_perceraian);
-    document.getElementById('info-perselisihan').textContent= formatAngka(p.faktor_perselisihan);
-    document.getElementById('info-ekonomi').textContent     = formatAngka(p.faktor_ekonomi);
-  }
+          allData = geojson.features
+            .map((f) => ({
+              nama: f.properties.nama,
+              nilai: f.properties.nilai,
+              jumlah: f.properties.jumlah_perceraian,
+              perselisihan: f.properties.faktor_perselisihan,
+              ekonomi: f.properties.faktor_ekonomi,
+            }))
+            .sort((a, b) => b.nilai - a.nilai);
 
-  function hideInfo() {
-    document.getElementById('info-box').classList.add('hidden');
-  }
+          renderTop5(allData);
 
-  // ── Render Legenda ──────────────────────────────
-  function renderLegenda(skala, label) {
-    const container = document.getElementById('legenda-container');
-    const { thresholds, colors } = skala;
-    const items = [];
+          geojsonLayer = L.geoJSON(geojson, {
+            style: (feature) => ({
+              fillColor: getColor(feature.properties.nilai, skala),
+              weight: 2,
+              color: "#1f2937",
+              fillOpacity: 0.8,
+            }),
+            onEachFeature: (feature, layer) => {
+              const p = feature.properties;
+              layer.on({
+                mouseover(e) {
+                  const l = e.target;
+                  l.setStyle({ weight: 4, color: "#10b981", fillOpacity: 0.95 });
+                  l.bringToFront();
+                  showInfo(p);
+                },
+                mouseout(e) {
+                  if (selectedLayer !== e.target) geojsonLayer.resetStyle(e.target);
+                  if (!selectedLayer) hideInfo();
+                },
+                click(e) {
+                  if (selectedLayer) geojsonLayer.resetStyle(selectedLayer);
+                  selectedLayer = e.target;
+                  selectedLayer.setStyle({ weight: 4, color: "#10b981", fillOpacity: 0.95 });
+                  showInfo(p);
+                  map.fitBounds(e.target.getBounds(), { padding: [20, 20] });
+                },
+              });
+            },
+          }).addTo(map);
 
-    items.push({ color: colors[0], label: `< ${formatAngka(thresholds[0])}` });
-    for (let i = 0; i < thresholds.length - 1; i++) {
-      items.push({ color: colors[i + 1], label: `${formatAngka(thresholds[i])} – ${formatAngka(thresholds[i+1])}` });
-    }
-    items.push({ color: colors[colors.length - 1], label: `> ${formatAngka(thresholds[thresholds.length - 1])}` });
+          map.fitBounds(geojsonLayer.getBounds(), { padding: [10, 10] });
+          renderLegenda(skala, LABEL);
+        })
+        .catch((err) => {
+          document.getElementById("loading-overlay").innerHTML =
+            '<span style="color:red">❌ GAGAL MEMUAT DATA</span><span style="font-size:10px">' + err.message + "</span>";
+        });
 
-    container.innerHTML = items.map(item => `
-      <div class="legend-item">
-        <div class="legend-box" style="background:${item.color}"></div>
-        <span>${item.label}</span>
-      </div>
-    `).join('');
-  }
+      // ── showInfo — SATU FUNGSI, mencakup detail + aktivasi tombol LLM ──
+      function showInfo(p) {
+        // Tampilkan detail sidebar
+        document.getElementById("info-box").classList.remove("hidden");
+        document.getElementById("info-nama").textContent        = p.nama.toUpperCase();
+        document.getElementById("info-jumlah").textContent      = formatAngka(p.jumlah_perceraian);
+        document.getElementById("info-perselisihan").textContent = formatAngka(p.faktor_perselisihan);
+        document.getElementById("info-ekonomi").textContent     = formatAngka(p.faktor_ekonomi);
 
-  // ── Render Top 5 ────────────────────────────────
-  function renderTop5(data) {
-    const list = document.getElementById('top5-list');
-    const top5 = data.slice(0, 5);
-    list.innerHTML = top5.map((d, i) => `
-      <li class="flex justify-between items-center gap-2">
-        <span class="truncate">${i + 1}. ${d.nama}</span>
-        <span class="font-bold text-emerald-600 dark:text-emerald-400 shrink-0">${formatAngka(d.nilai)}</span>
-      </li>
-    `).join('');
-  }
-</script>
+        // Simpan provinsi terpilih & aktifkan tombol analisis provinsi
+        provinsiTerpilih = p;
+        const btn = document.getElementById("btn-analisis-provinsi");
+        btn.disabled = false;
+        btn.className = "bg-emerald-500 dark:bg-emerald-600 text-white font-bold text-xs px-4 py-2 pixel-border pixel-shadow-sm pixel-btn-active hover:bg-emerald-600 dark:hover:bg-emerald-500 transition duration-100";
+        document.getElementById("hint-provinsi").classList.add("hidden");
+      }
 
-</body>
+      function hideInfo() {
+        document.getElementById("info-box").classList.add("hidden");
+      }
+
+      // ── Render Legenda ─────────────────────────────
+      function renderLegenda(skala, label) {
+        const container = document.getElementById("legenda-container");
+        const { thresholds, colors } = skala;
+        const items = [];
+        items.push({ color: colors[0], label: `< ${formatAngka(thresholds[0])}` });
+        for (let i = 0; i < thresholds.length - 1; i++) {
+          items.push({ color: colors[i + 1], label: `${formatAngka(thresholds[i])} – ${formatAngka(thresholds[i + 1])}` });
+        }
+        items.push({ color: colors[colors.length - 1], label: `> ${formatAngka(thresholds[thresholds.length - 1])}` });
+        container.innerHTML = items.map((item) => `
+          <div class="legend-item">
+            <div class="legend-box" style="background:${item.color}"></div>
+            <span>${item.label}</span>
+          </div>
+        `).join("");
+      }
+
+      // ── Render Top 5 ───────────────────────────────
+      function renderTop5(data) {
+        const list = document.getElementById("top5-list");
+        list.innerHTML = data.slice(0, 5).map((d, i) => `
+          <li class="flex justify-between items-center gap-2">
+            <span class="truncate">${i + 1}. ${d.nama}</span>
+            <span class="font-bold text-emerald-600 dark:text-emerald-400 shrink-0">${formatAngka(d.nilai)}</span>
+          </li>
+        `).join("");
+      }
+
+      // ── Analisis LLM ───────────────────────────────
+      async function jalankanAnalisis(mode) {
+        const output  = document.getElementById("analisis-output");
+        const loading = document.getElementById("analisis-loading");
+
+        if (mode === "provinsi" && !provinsiTerpilih) {
+          output.classList.remove("hidden");
+          output.textContent = "⚠️ Silakan klik provinsi di peta terlebih dahulu.";
+          return;
+        }
+
+        let payload = { mode };
+        if (mode === "provinsi") {
+          payload.data = {
+            nama: provinsiTerpilih.nama,
+            jumlah_perceraian: provinsiTerpilih.jumlah_perceraian,
+            faktor_perselisihan: provinsiTerpilih.faktor_perselisihan,
+            faktor_ekonomi: provinsiTerpilih.faktor_ekonomi,
+          };
+        } else {
+          payload.data = {
+            provinsi_list: allData.map((d) => ({ nama: d.nama, nilai: d.nilai })),
+          };
+        }
+
+        output.classList.add("hidden");
+        output.textContent = "";
+        loading.classList.remove("hidden");
+
+        try {
+          const res = await fetch("/api/analisis/", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "X-CSRFToken": getCookie("csrftoken"),
+            },
+            body: JSON.stringify(payload),
+          });
+
+          if (!res.ok) throw new Error(`Server error: ${res.status}`);
+
+          loading.classList.add("hidden");
+          output.classList.remove("hidden");
+          output.textContent = "";
+
+          const reader = res.body.getReader();
+          const decoder = new TextDecoder();
+          while (true) {
+            const { done, value } = await reader.read();
+            if (done) break;
+            output.textContent += decoder.decode(value, { stream: true });
+          }
+        } catch (err) {
+          loading.classList.add("hidden");
+          output.classList.remove("hidden");
+          output.textContent = "❌ Gagal memuat analisis: " + err.message;
+        }
+      }
+
+      // ── Helper CSRF ────────────────────────────────
+      function getCookie(name) {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(";").shift();
+        return "";
+      }
+    </script>
+  </body>
 </html>
